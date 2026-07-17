@@ -8,9 +8,13 @@ export default defineNuxtPlugin(() => {
 				innerHTML: `
 				setTimeout(() => {
 					const jsonPayload = document.getElementById('__NUXT_DATA__')
-					console.log('Original URL before replacement:', jsonPayload.innerHTML.includes('utm=123'))
-					jsonPayload.innerHTML = jsonPayload.innerHTML.replace('?utm=123', '')
-					console.log('Original URL before replacement:', jsonPayload.innerHTML)
+						if (!jsonPayload) return
+
+						const escapedSlash = '\\\\u002F'
+					console.log('Original URL before replacement:', String(jsonPayload.innerHTML))
+						console.log('has', String(jsonPayload.innerHTML).includes(escapedSlash))
+						jsonPayload.innerHTML = String(jsonPayload.innerHTML).replace(escapedSlash, escapedSlash + '?cstrackid=123')
+					console.log('Original URL after replacement:', jsonPayload.innerHTML)
 				}, 0)
 			`,
 			},
